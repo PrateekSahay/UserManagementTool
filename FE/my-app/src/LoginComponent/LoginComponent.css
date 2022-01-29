@@ -1,0 +1,27 @@
+.loginContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  max-width: 500px;
+  text-align: center;
+  margin-left: 350px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  height: 600px;
+  justify-content: space-evenly;
+}
+
+.form > * {
+  padding: 20px;
+}
+
+.header {
+  font-weight: bold;
+}
+
+input {
+  text-align: center;
+}
