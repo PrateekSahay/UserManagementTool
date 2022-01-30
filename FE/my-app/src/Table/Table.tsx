@@ -11,14 +11,33 @@ export interface ITableForm {
 
 const TableForm = (props: ITableForm) => {
 
-    const [isOpen, setIsOpen] = useState(false);
-    const updateModalState = (value: boolean) => setIsOpen(value);
-    //let viewOnlyformProps;
-    const onViewOnlyClick = (user: User) => {
-        // viewOnlyformProps: FormProps = {
+    const [isOpen, setIsOpen] = useState(false);        
+    const [data, setData] = useState<any>({});    
 
-        // }
-    }
+    const updateModalState = (value: boolean) => {setIsOpen(value)};
+        const onViewOrEditClick = (user: User, val: string):FormProps => {            
+            if (val === 'V') {
+                const formData: FormProps = {
+                  viewOnly: true,
+                  roles: undefined,
+                  user: user
+                };
+                setData(formData);
+                setIsOpen(true)
+                return formData;
+            }   
+            else {
+                const formData: FormProps = {
+                    viewOnly: false,
+                    roles: undefined,
+                    user: user,
+                    isPut: true
+                  };
+                  setData(formData);
+                  setIsOpen(true)
+                  return formData;
+            }
+        }    
 
     const onDeleteIconClick = (userId: number | undefined) => {
         fetch(`https://localhost:44365/api/User/${userId}`, {
@@ -40,7 +59,7 @@ const TableForm = (props: ITableForm) => {
 
         return (                
             <> 
-                {/* {isOpen && <ModalForm formProps={props.formProps} isOpen={isOpen} handleClose={updateModalState} />}                */}
+                {isOpen && <ModalForm formProps={data} isOpen={isOpen} handleClose={updateModalState} />}               
                 <TableContainer component={Paper} className="tableContainer">
                     <Table className = "table" aria-label="simple table">
                         <TableHead>
@@ -64,8 +83,18 @@ const TableForm = (props: ITableForm) => {
                                     </TableCell>
                                     <TableCell align="left">{user.isTrialUser ? "Yes": "No"}</TableCell>
                                     <TableCell align="left">
-                                        <button onClick={() => {onViewOnlyClick(user)}}>V</button>
-                                        <button>E</button>
+                                        <button onClick={() => {
+                                            //setReqState('V');
+                                            onViewOrEditClick(user, 'V');
+                                        }}>
+                                            V
+                                        </button>
+                                        <button onClick={() => {
+                                            //setReqState('E');
+                                            onViewOrEditClick(user, 'E');
+                                        }}>
+                                            E
+                                        </button>
                                         <button onClick={() => {onDeleteIconClick(user.userId)}}>D</button>
                                     </TableCell>              
                                 </TableRow> 

@@ -14,10 +14,20 @@ const UserManagementPage = (props: IUserManagementPage) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const updateModalState = (value: boolean) => setIsOpen(value);
+  const getFormProp = ():FormProps => {
+    const formData: FormProps = {
+      viewOnly: false,
+      roles: props.formProps.roles,
+      user: undefined
+    }
+    return formData;
+  }
 
   return (
   <div className='userManagementPageCont'>
-    {isOpen && <ModalForm formProps={props.formProps} isOpen={isOpen} handleClose={updateModalState} />}
+    {isOpen && <ModalForm isOpen={isOpen} handleClose={updateModalState}
+      formProps={getFormProp()}
+     />}
       <h1>User Management</h1>
       <Button        
         variant="contained"

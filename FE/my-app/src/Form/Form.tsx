@@ -13,6 +13,7 @@ export interface FormProps {
     user: User | undefined;
     roles: UserRoles[] | undefined;
     viewOnly: boolean;    
+    isPut?: boolean;
 }
 
 const Form = (props: FormProps) => {
@@ -72,29 +73,56 @@ const Form = (props: FormProps) => {
       }
 
       const onSubmit = () => {
-        const postReq: User = {
-          email: email || '',
-          firstName: firstName || '',
-          lastName: lastName || '',
-          password: props.user?.password,
-          userName: userName,
-          isTrialUser: isTrialUser,
-          userId: props.user?.userId,
-          userRoles: getUserRoles()
+        if (!props.isPut) {
+          const postReq: User = {
+            email: email,
+            firstName: firstName,
+            lastName: lastName,
+            password: props.user?.password || 'pass',
+            userName: userName,
+            isTrialUser: isTrialUser,
+            userId: props.user?.userId,
+            userRoles: getUserRoles()
+          };
+  
+          fetch('https://localhost:44365/api/User', {
+              method: 'POST',
+              headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(postReq)
+          })
+          .then(resp => resp.json())
+          .then(data => {
+            console.log("data", data);          
+          });
         }
-
-        fetch('https://localhost:44365/api/User', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(postReq)
-        })
-        .then(resp => resp.json())
-        .then(data => {
-          console.log("data", data);          
-        });
+        else {
+          const postReq: User = {
+            email: email,
+            firstName: firstName,
+            lastName: lastName,
+            password: props.user?.password || 'pass',
+            userName: userName,
+            isTrialUser: isTrialUser,
+            userId: props.user?.userId,
+            userRoles: getUserRoles()
+          };
+  
+          fetch('https://localhost:44365/api/User', {
+              method: 'PUT',
+              headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(postReq)
+          })
+          .then(resp => resp.json())
+          .then(data => {
+            console.log("data", data);          
+          });
+        }        
 
       }
 
@@ -179,12 +207,14 @@ const Form = (props: FormProps) => {
             <div>
             <Button        
                 variant="contained"
+                disabled={props.viewOnly}    
                 onClick={() => onSubmit()}
             >
                 Add
             </Button>
             <Button        
                 variant="contained"
+                disabled={props.viewOnly}    
                 onClick={() => onReset()}
             >
               Reset

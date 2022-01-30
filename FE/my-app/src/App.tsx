@@ -3,7 +3,7 @@ import Login from './Login/Login';
 import UserManagementTool from './UserManagementTool/UserManagementTool';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const updateAuthentication = (value: boolean) => setIsAuthenticated(value);
 
