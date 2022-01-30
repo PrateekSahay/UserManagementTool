@@ -17,7 +17,6 @@ const LoginComponent = (props: LoginComponentProps) => {
     const [pass, setPass] = useState('');
 
     const onsubmitClick = () => {
-
         const req: AuthReq = {
             Password: pass,
             userName: userName
@@ -32,7 +31,10 @@ const LoginComponent = (props: LoginComponentProps) => {
             body: JSON.stringify(req)
         })
         .then(resp => resp.json())
-        .then(data => {console.log("data", data); props.isAuthenticated(data)});
+        .then(data => {
+          console.log("data", data); 
+          props.isAuthenticated(data);
+        });
     }
 
     return (
