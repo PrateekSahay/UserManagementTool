@@ -58,7 +58,8 @@ const LoginComponent = (props: LoginComponentProps) => {
                 <TextField
                     className="textField"
                     id="input-with-icon-textfield"   
-                    value={pass}                    
+                    value={pass}        
+                    type="password"
                     onChange={(e) => setPass(e.target.value)}                 
                     InputProps={{
                       startAdornment: (
