@@ -1,26 +1,66 @@
+import React, { useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-
-
-import React, { useState } from 'react';
-import './FormComponent.css';
+import './Form.scss';
 import { User, UserRoles } from '../Interfaces/Interfaces';
+import { staticRoles } from './Constants';
 
-export interface FormComponentProps {
-    user: User;
+export interface FormProps {
+    user: User | undefined;
     roles: UserRoles[] | undefined;
-    viewOnly: boolean;
+    viewOnly: boolean;    
 }
 
-const FormComponent = (props: FormComponentProps) => {
-    const [email, setEmail] = useState(props.user.email);
-    const [firstName, setFirstName] = useState(props.user.firstName);
-    const [lastName, setLastName] = useState(props.user.lastName);
-    const [isTrialUser, setIsTrialUser] = React.useState(props.user.isTrialUser);
-    const [userName, setUserName] = useState(props.user.userName);
+const Form = (props: FormProps) => {
+    console.log("props", props);
+    const [email, setEmail] = useState(props.user?.email);
+    const [firstName, setFirstName] = useState(props.user?.firstName);
+    const [lastName, setLastName] = useState(props.user?.lastName);
+    const [isTrialUser, setIsTrialUser] = React.useState(props.user?.isTrialUser);
+    const [userName, setUserName] = useState(props.user?.userName);
+    const [finalArr, setFinalArr] = useState<any>([]);
+    let arr1: ({ roleId: number; roleName: string; } | undefined)[] = [];
+
+    console.log("email", email);
+    // console.log("checked", checked);
+
+    // const handleChangeCheckBox = (id: number) => {
+    //     const index = checked.indexOf(id);
+    //     if (index > -1) {
+    //         const index = checked.indexOf(id);
+    //         setChecked(checked.splice(index, 1));
+    //     }
+    //     else setChecked([...checked, id]);
+    // }
+
+    useEffect(() => {
+        setEmail(props.user?.email);
+        setFirstName(props.user?.firstName);
+        setLastName(props.user?.lastName);
+        setIsTrialUser(props.user?.isTrialUser);
+        setUserName(props.user?.userName);
+        getSelectedRoles();
+        //setChecked();
+    }, [props]);
+
+    const getSelectedRoles = () => {
+        console.log(props.user?.userRoles);
+        props.user && props.user.userRoles?.forEach(element => {
+            console.log(element)
+            const isObjectPresent = staticRoles.find((o) => o.roleId === element.roleId);
+            // finalArr.push(isObjectPresent);
+            Object.assign(isObjectPresent, {
+                isChecked: true
+            });
+            arr1.push(isObjectPresent);            
+        });
+        setFinalArr(arr1);
+        console.log('Bro', finalArr, arr1);
+    }
+
     return(
         <div className='column'>
             <div>
@@ -33,10 +73,7 @@ const FormComponent = (props: FormComponentProps) => {
                   label="Age"
                   value="test"
                   disabled={props.viewOnly}
-                >                
-                  {/* <MenuItem value={10}>Ten</MenuItem> */}
-                  {/* <MenuItem value={20}>Twenty</MenuItem> */}
-                  {/* <MenuItem value={30}>Thirty</MenuItem> */}
+                >                  
                 </Select>
                 </div>            
                 <div className='textField'>                
@@ -70,7 +107,7 @@ const FormComponent = (props: FormComponentProps) => {
                     />
                 </div>          
                 <FormControlLabel control={<Checkbox
-                    value={isTrialUser}
+                    //value={isTrialUser}
                     disabled={props.viewOnly}
                     checked={isTrialUser}                       
                  onChange={() => setIsTrialUser(!isTrialUser)} />} label="Label" />  
@@ -88,10 +125,20 @@ const FormComponent = (props: FormComponentProps) => {
                 </div>
             </div>
             <div>
-
+            {console.log(props.roles)}
+                {finalArr.map((x: { isChecked: boolean | undefined; roleName: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; }) =>
+                <div>
+                    <Checkbox
+                    //value={checked}
+                    disabled={props.viewOnly}
+                    onChange={() => console.log('hI')}
+                    checked={x?.isChecked}                       
+                 />
+                 <span>{x.roleName}</span>             
+                </div>)}                
             </div>
         </div>
     );
 }
 
-export { FormComponent as default};
+export { Form as default};

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { User, UserRoles } from '../Interfaces/Interfaces';
-import FormComponent, { FormComponentProps } from '../FormComponent/FormComponent';
+import Form, { FormProps } from '../Form/Form';
+import SimpleCard from '../Card/Card';
 
-const UserManagementToolComponent = () => {
+const UserManagementTool = () => {
     const [numberOfUsers, setNumberOfUsers] = useState(0);
     const [userList, setUserList] = useState<User[]>();
     const [rolesList, setRolesList] = useState<UserRoles[]>();
@@ -32,28 +33,35 @@ const UserManagementToolComponent = () => {
         );
     }, []);
 
-    const FormComponentProps: FormComponentProps = {
-        user: {
-            email: "sad",
-            firstName: "first",
-            isTrialUser: true,
-            lastName: "l",
-            userName: "1",
-            userRoles: rolesList,
-            password: "s",
-            userId: 1,
-        }, 
-        viewOnly: true,
-        roles: rolesList        
+    // const FormComponentProps: FormComponentProps = {
+    //     user: {
+    //         email: "sad",
+    //         firstName: "first",
+    //         isTrialUser: true,
+    //         lastName: "l",
+    //         userName: "1",
+    //         userRoles: rolesList,
+    //         password: "s",
+    //         userId: 1,
+    //     }, 
+    //     viewOnly: true,
+    //     roles: rolesList        
+    // };
+
+    const formProps: FormProps = {
+        user: userList && userList[0], 
+        viewOnly: false,
+        roles: rolesList,        
     };
 
     return(        
         <div>            
             {/* {numberOfUsers} */}
             {/* {userList} */}
-            <FormComponent {...FormComponentProps} />
+            <Form {...formProps}/>
+            <SimpleCard numberOfUsers={numberOfUsers} />
         </div>
     );
 }
 
-export { UserManagementToolComponent as default};
+export { UserManagementTool as default};

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import LoginComponent from './LoginComponent/LoginComponent';
-import UserManagementToolComponent from './UserManagementToolComponent/UserManagementToolComponent';
+import Login from './Login/Login';
+import UserManagementTool from './UserManagementTool/UserManagementTool';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -10,11 +10,11 @@ function App() {
   return (    
     <div className="page">
       {!isAuthenticated ?
-       <LoginComponent 
+       <Login
         isAuthenticated={updateAuthentication}
        />
        :
-       <UserManagementToolComponent />
+       <UserManagementTool />
       }      
     </div>
   );

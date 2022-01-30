@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './LoginComponent.scss';
+import './Login.scss';
 import { AuthReq } from '../Interfaces/Interfaces';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
