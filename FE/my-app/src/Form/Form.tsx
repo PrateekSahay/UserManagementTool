@@ -7,6 +7,7 @@ import Checkbox from '@mui/material/Checkbox';
 import './Form.scss';
 import { User, UserRoles } from '../Interfaces/Interfaces';
 import { staticRoles } from './Constants';
+import { Button } from '@mui/material';
 
 export interface FormProps {
     user: User | undefined;
@@ -55,6 +56,49 @@ const Form = (props: FormProps) => {
           })
         );
       }
+
+      const getUserRoles = () => {
+        const roles: UserRoles[] = [];
+        checkBoxesArray.map((role: any) => {
+          if (role.isSelected) {
+            const roleRes: UserRoles = {
+              roleId: role.roleId,
+              roleName: role.roleName
+            };
+            roles.push(roleRes);
+          }
+        })
+        return roles;
+      }
+
+      const onSubmit = () => {
+        const postReq: User = {
+          email: email || '',
+          firstName: firstName || '',
+          lastName: lastName || '',
+          password: props.user?.password,
+          userName: userName,
+          isTrialUser: isTrialUser,
+          userId: props.user?.userId,
+          userRoles: getUserRoles()
+        }
+
+        fetch('https://localhost:44365/api/User', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(postReq)
+        })
+        .then(resp => resp.json())
+        .then(data => {
+          console.log("data", data);          
+        });
+
+      }
+
+      const onReset = () => {}
 
     return(
         <div className='column'>
@@ -108,7 +152,7 @@ const Form = (props: FormProps) => {
                  onChange={() => setIsTrialUser(!isTrialUser)} />} label="Label" />  
             </div>
             <div>
-            <div className='textField'>                
+              <div className='textField'>                
                     <InputLabel>UserName</InputLabel>
                     <TextField
                         id="standard-helperText"                
@@ -117,7 +161,7 @@ const Form = (props: FormProps) => {
                         variant="filled"
                         onChange={(e) => setUserName(e.target.value)}
                     />
-                </div>
+              </div>
             </div>
             <div>
             {checkBoxesArray.map(({ isSelected, roleName, roleId }: any) => (
@@ -131,6 +175,20 @@ const Form = (props: FormProps) => {
              />
              </>
             ))}                            
+            </div>
+            <div>
+            <Button        
+                variant="contained"
+                onClick={() => onSubmit()}
+            >
+                Add
+            </Button>
+            <Button        
+                variant="contained"
+                onClick={() => onReset()}
+            >
+              Reset
+            </Button>
             </div>
         </div>
     );

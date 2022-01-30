@@ -1,15 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
 import {Grid, Paper, GridListTile, GridList} from '@material-ui/core';
 import { User } from '../Interfaces/Interfaces';
+import Form, { FormProps } from '../Form/Form';
+import ModalForm from '../Modal/Modal';
 
 export interface ITableForm {
   users: User[] | undefined;
 }
 
 const TableForm = (props: ITableForm) => {
+
+    const [isOpen, setIsOpen] = useState(false);
+    const updateModalState = (value: boolean) => setIsOpen(value);
+    //let viewOnlyformProps;
+    const onViewOnlyClick = (user: User) => {
+        // viewOnlyformProps: FormProps = {
+
+        // }
+    }
+
+    const onDeleteIconClick = (userId: number | undefined) => {
+        fetch(`https://localhost:44365/api/User/${userId}`, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            //body: JSON.stringify(req)
+        })
+        .then(resp => resp.json())
+        .then(data => {
+          console.log("data", data); 
+          window.location.reload();
+          //props.isAuthenticated(data);
+        });
+    }
+
+
         return (                
-            <>                
+            <> 
+                {/* {isOpen && <ModalForm formProps={props.formProps} isOpen={isOpen} handleClose={updateModalState} />}                */}
                 <TableContainer component={Paper} className="tableContainer">
                     <Table className = "table" aria-label="simple table">
                         <TableHead>
@@ -33,9 +64,9 @@ const TableForm = (props: ITableForm) => {
                                     </TableCell>
                                     <TableCell align="left">{user.isTrialUser ? "Yes": "No"}</TableCell>
                                     <TableCell align="left">
-                                        <button>a</button>
-                                        <button>b</button>
-                                        <button>c</button>
+                                        <button onClick={() => {onViewOnlyClick(user)}}>V</button>
+                                        <button>E</button>
+                                        <button onClick={() => {onDeleteIconClick(user.userId)}}>D</button>
                                     </TableCell>              
                                 </TableRow> 
                             ))}

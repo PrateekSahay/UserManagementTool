@@ -21,12 +21,12 @@ namespace UserApi.Repository
 
         public static void AddUser(User user)
         {
-            string userExistSql = "Select count(*) from UserInfo where UserId = @UserId";
+            //string userExistSql = "Select count(*) from UserInfo where UserId = @UserId";
             var con = new SqlConnection(_connectionString);
-            int userCount = con.QueryFirst<int>(userExistSql, new { UserId = user.UserId });
+            //int userCount = con.QueryFirst<int>(userExistSql, new { UserId = user.UserId });
 
-            if (userCount < 1)
-            {
+            //if (userCount < 1)
+            //{
                 string sql = "Insert into UserInfo values(@UserName, @Password, @Email, @FirstName, @LastName, @IsTrialUser)";
                 con.Query(sql,
                     new
@@ -38,17 +38,31 @@ namespace UserApi.Repository
                         LastName = user.LastName,
                         IsTrialUser = user.IsTrialUser
                     });
+                
 
-                foreach (var role in user.UserRoles)
+            string sql5 = "Select UserId from UserInfo where UserName = @UserName and Password = @Password and Email = @Email and FirstName = @FirstName and LastName = @LastName and IsTrialUser = @IsTrialUser";
+
+            var userIdNew = con.QueryFirst<int>(sql5,
+                    new
+                    {
+                        UserName = user.UserName,
+                        Password = user.Password,
+                        Email = user.Email,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        IsTrialUser = user.IsTrialUser
+                    });
+
+            foreach (var role in user.UserRoles)
                 {
                     string sql2 = "Select count(*) from UserRoles where UserId = @UserId and RoleId = @RoleId";
-                    int roleCount = con.QueryFirst<int>(sql2, new { UserId = user.UserId, RoleId = role.RoleId });
+                    int roleCount = con.QueryFirst<int>(sql2, new { UserId = userIdNew, RoleId = role.RoleId });
                     if (roleCount >= 1)
                         continue;
                     string sql3 = "Insert into UserRoles values (@UserId, @RoleId)";
-                    con.Query(sql3, new { UserId = user.UserId, RoleId = role.RoleId });
+                    con.Query(sql3, new { UserId = userIdNew, RoleId = role.RoleId });
                 }
-            }
+            //}
         }
 
         public static void DeleteUser(int id)

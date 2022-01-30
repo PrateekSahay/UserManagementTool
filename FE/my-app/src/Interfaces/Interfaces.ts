@@ -9,12 +9,12 @@ export interface UserRoles {
 }
 
 export interface User {
-  userId: number;
-  userName: string;
-  password: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  isTrialUser: boolean;
+  userId?: number;
+  userName?: string;
+  password?: string;
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  isTrialUser?: boolean;
   userRoles: UserRoles[] | undefined;
 }
