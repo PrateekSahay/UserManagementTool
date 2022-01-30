@@ -48,15 +48,7 @@ const LoginComponent = (props: LoginComponentProps) => {
             <div className='header'>
                 <h1>GEMS Cloud Web Application</h1>
             </div>
-            <div className='form'>
-                {/* <input type = "text"
-                    value={userName}
-                    placeholder='UserName'
-                    onChange={(e) => setUserName(e.target.value)}/>
-                <input type = "text"
-                    value={pass}
-                    placeholder='Password'
-                    onChange={(e) => setPass(e.target.value)}/> */}
+            <div className='form'>                
                 <TextField
                     id="input-with-icon-textfield"   
                     value={userName}                    

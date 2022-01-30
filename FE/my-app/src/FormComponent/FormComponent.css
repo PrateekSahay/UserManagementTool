@@ -1,0 +1,10 @@
+.textField {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+}
+
+.column {
+  display: flex;
+  justify-content: space-evenly;
+}

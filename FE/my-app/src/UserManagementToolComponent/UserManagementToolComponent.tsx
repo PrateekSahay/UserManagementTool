@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { User, UserRoles } from '../Interfaces/Interfaces';
+import FormComponent, { FormComponentProps } from '../FormComponent/FormComponent';
 
 const UserManagementToolComponent = () => {
     const [numberOfUsers, setNumberOfUsers] = useState(0);
@@ -29,12 +30,28 @@ const UserManagementToolComponent = () => {
                 setRolesList(data);           
             }
         );
-    }, [])
+    }, []);
 
-    return(
+    const FormComponentProps: FormComponentProps = {
+        user: {
+            email: "sad",
+            firstName: "first",
+            isTrialUser: true,
+            lastName: "l",
+            userName: "1",
+            userRoles: rolesList,
+            password: "s",
+            userId: 1,
+        }, 
+        viewOnly: true,
+        roles: rolesList        
+    };
+
+    return(        
         <div>            
-            {numberOfUsers}
+            {/* {numberOfUsers} */}
             {/* {userList} */}
+            <FormComponent {...FormComponentProps} />
         </div>
     );
 }

@@ -16,5 +16,5 @@ export interface User {
   firstName: string;
   lastName: string;
   isTrialUser: boolean;
-  userRoles: UserRoles[];
+  userRoles: UserRoles[] | undefined;
 }
