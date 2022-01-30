@@ -6,6 +6,8 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Drawer from "../SideBar/SideBar";
 import { makeStyles } from "@material-ui/core/styles";
 import StickyHeadTable from '../Table/Table';
+import Dashboard from '../Dashboard/Dashboard';
+import UserManagementPage from '../UserManagementPage/UserManagementPage';
 
 const useStyles = makeStyles({
   container: {
@@ -70,12 +72,13 @@ const UserManagementTool = () => {
                 <BrowserRouter>
                     <Drawer />       
                     <Switch>
-                        <Route exact path ='/' render={props => <Form {...props} {...formProps}/>} />
-                        <Route exact path ='/card' render={props => <SimpleCard {...props} numberOfUsers = {numberOfUsers}/>} />
-                        <Route exact path ='/userForm/:formState/:id' render={props => <Form {...props} {...formProps}/>} />
+                        {/* <Route exact path ='/' render={props => <Form {...props} {...formProps}/>} /> */}
+                        {/* <Route exact path ='/card' render={props => <SimpleCard {...props} numberOfUsers = {numberOfUsers}/>} /> */}
+                        {/* <Route exact path ='/userForm/:formState/:id' render={props => <Form {...props} {...formProps}/>} /> */}
+                        <Route exact path ='/' render={props => <Dashboard {...props} numberOfUsers = {numberOfUsers}/>} />
+                        <Route exact path ='/user' render={props => <UserManagementPage {...props} formProps={formProps} userList={userList}/>} />                        
                     </Switch>            
-                </BrowserRouter> 
-                 <StickyHeadTable users={userList} />            
+                </BrowserRouter>                  
         </div>
     );
 }

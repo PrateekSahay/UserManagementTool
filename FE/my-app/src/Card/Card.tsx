@@ -5,15 +5,19 @@ import React from 'react'
 import './Card.scss'
 
  
-interface ColorProp {
+interface ICardProps {
     numberOfUsers: number;
+    cardName: string;
 };
 
-const SimpleCard = (props: ColorProp) => {    
+const SimpleCard = (props: ICardProps) => {    
         return (
             <div className='CardContainer'>
                 <Card className= "card">
                     <CardContent>
+                        <Typography className="CardNameWrapper" color="textSecondary">
+                            <b>{props.cardName}</b>
+                        </Typography>
                         <Typography className="CounterWrapper" color="textSecondary" gutterBottom>
                             <b className = "Counter">{props && props.numberOfUsers}</b>
                         </Typography>                        

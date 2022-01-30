@@ -24,26 +24,33 @@ const Drawer = (props: any) => {
   const classes = useStyles();
   const itemsList = [
     {
-      text: "Home",
+      text: "Dashboard",
       icon: <InboxIcon />,
       onClick: () => history.push("/")
     },
     {
-      text: "About",
+      text: "Applications",
       icon: <MailIcon />,
-      onClick: () => history.push("/card")
+      onClick: () => history.push("")
     },
     {
-      text: "Contact",
+      text: "Data Centers",
       icon: <MailIcon />,
-      onClick: () => history.push("/contact")
+      onClick: () => history.push("")
+    },
+    {
+      text: "Customers",
+      icon: <MailIcon />,
+      onClick: () => history.push("")
+    },
+    {
+      text: "User Mgmt",
+      icon: <MailIcon />,
+      onClick: () => history.push("/user")
     }
   ];
   return (
-    <div style={{ display: 'flex', flexDirection: 'column'}}>
-    <div>
-      <h1>Gleason</h1>
-    </div>
+    <div style={{ display: 'flex', flexDirection: 'column'}}>    
     <div>
     <MUIDrawer variant="permanent" className={classes.drawer}>
       <List>
