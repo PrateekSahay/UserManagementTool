@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import './LoginComponent.css';
+import './LoginComponent.scss';
 import { AuthReq } from '../Interfaces/Interfaces';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
-// import AccountCircle from '@mui/icons-material/AccountCircle';
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
 
@@ -22,14 +21,7 @@ const LoginComponent = (props: LoginComponentProps) => {
         const req: AuthReq = {
             Password: pass,
             userName: userName
-        };
-
-        // fetch('https://localhost:44365/api/User')
-        // .then(resp => resp.json())
-        // .then(data => {            
-        // console.log(data);                
-        // }
-        // );
+        };        
 
         fetch('https://localhost:44365/api/User/Auth', {
             method: 'POST',
@@ -44,12 +36,11 @@ const LoginComponent = (props: LoginComponentProps) => {
     }
 
     return (
-        <div className='loginContainer'>
-            <div className='header'>
-                <h1>GEMS Cloud Web Application</h1>
-            </div>
+        <div className='loginContainer'>            
+            <h1>GEMS Cloud Web Application</h1>            
             <div className='form'>                
                 <TextField
+                    className="textField"
                     id="input-with-icon-textfield"   
                     value={userName}                    
                     onChange={(e) => setUserName(e.target.value)}                 
@@ -63,6 +54,7 @@ const LoginComponent = (props: LoginComponentProps) => {
                     variant="filled"
                 />
                 <TextField
+                    className="textField"
                     id="input-with-icon-textfield"   
                     value={pass}                    
                     onChange={(e) => setPass(e.target.value)}                 

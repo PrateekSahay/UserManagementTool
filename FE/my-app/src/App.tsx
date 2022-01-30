@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-//import logo from './logo.svg';
-import './App.css';
 import LoginComponent from './LoginComponent/LoginComponent';
 import UserManagementToolComponent from './UserManagementToolComponent/UserManagementToolComponent';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const updateAuthentication = (value: boolean) => setIsAuthenticated(value);
 

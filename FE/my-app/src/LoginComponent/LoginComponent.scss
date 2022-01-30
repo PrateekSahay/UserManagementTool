@@ -1,0 +1,23 @@
+.loginContainer {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 10px 350px 10px 350px;
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    height: 500px;
+    justify-content: space-evenly;
+  }
+
+  .MuiFormControl-root {
+    width: auto;
+  }
+
+  .textField {
+    input {
+      padding-bottom: 25px;
+    }
+  }
+}
