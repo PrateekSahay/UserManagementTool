@@ -21,20 +21,7 @@ const Form = (props: FormProps) => {
     const [lastName, setLastName] = useState(props.user?.lastName);
     const [isTrialUser, setIsTrialUser] = React.useState(props.user?.isTrialUser);
     const [userName, setUserName] = useState(props.user?.userName);
-    const [finalArr, setFinalArr] = useState<any>([]);
-    let arr1: ({ roleId: number; roleName: string; } | undefined)[] = [];
-
-    console.log("email", email);
-    // console.log("checked", checked);
-
-    // const handleChangeCheckBox = (id: number) => {
-    //     const index = checked.indexOf(id);
-    //     if (index > -1) {
-    //         const index = checked.indexOf(id);
-    //         setChecked(checked.splice(index, 1));
-    //     }
-    //     else setChecked([...checked, id]);
-    // }
+    const [checkBoxesArray, setCheckBoxesArray] = useState<any>([]);    
 
     useEffect(() => {
         setEmail(props.user?.email);
@@ -42,24 +29,32 @@ const Form = (props: FormProps) => {
         setLastName(props.user?.lastName);
         setIsTrialUser(props.user?.isTrialUser);
         setUserName(props.user?.userName);
-        getSelectedRoles();
+        updateCheckBoxArray();
         //setChecked();
     }, [props]);
 
-    const getSelectedRoles = () => {
-        console.log(props.user?.userRoles);
-        props.user && props.user.userRoles?.forEach(element => {
-            console.log(element)
-            const isObjectPresent = staticRoles.find((o) => o.roleId === element.roleId);
-            // finalArr.push(isObjectPresent);
-            Object.assign(isObjectPresent, {
-                isChecked: true
-            });
-            arr1.push(isObjectPresent);            
-        });
-        setFinalArr(arr1);
-        console.log('Bro', finalArr, arr1);
-    }
+    function updateCheckBoxArray() {
+        const updatedArray = staticRoles.map((role) => ({
+          ...role,
+          isSelected: props.user?.userRoles?.some(({ roleId }) => roleId === role.roleId)
+        }));
+        setCheckBoxesArray(updatedArray);
+      }
+    
+      function handleCheckStatus(roleId: any) {
+        setCheckBoxesArray(
+          checkBoxesArray.map((role: any) => {
+            if (roleId === role.roleId) {
+              return {
+                ...role,
+                isSelected: !role.isSelected
+              };
+            }
+    
+            return role;
+          })
+        );
+      }
 
     return(
         <div className='column'>
@@ -125,17 +120,17 @@ const Form = (props: FormProps) => {
                 </div>
             </div>
             <div>
-            {console.log(props.roles)}
-                {finalArr.map((x: { isChecked: boolean | undefined; roleName: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; }) =>
-                <div>
-                    <Checkbox
-                    //value={checked}
-                    disabled={props.viewOnly}
-                    onChange={() => console.log('hI')}
-                    checked={x?.isChecked}                       
-                 />
-                 <span>{x.roleName}</span>             
-                </div>)}                
+            {checkBoxesArray.map(({ isSelected, roleName, roleId }: any) => (
+                <>
+                <InputLabel>{roleName}</InputLabel>
+                <input
+                type="checkbox"
+                disabled={props.viewOnly}
+                onClick={() => handleCheckStatus(roleId)}
+                checked={isSelected}                       
+             />
+             </>
+            ))}                            
             </div>
         </div>
     );
