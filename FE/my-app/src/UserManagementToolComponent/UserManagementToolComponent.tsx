@@ -32,8 +32,7 @@ const UserManagementToolComponent = () => {
     }, [])
 
     return(
-        <div>
-            UserManagement
+        <div>            
             {numberOfUsers}
             {/* {userList} */}
         </div>
