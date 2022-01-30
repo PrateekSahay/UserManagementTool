@@ -8,6 +8,7 @@ using UserApi.Models;
 using UserApi.Repository;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+//TODO:  Hanndle exceptions
 
 namespace UserApi.Controllers
 {
@@ -26,8 +27,15 @@ namespace UserApi.Controllers
         [HttpGet("all")]
         public IActionResult GetAllUsers()
         {
-            var numberOfUsers = UserRepository.GetAllUsers();
-            return Ok(numberOfUsers);
+            var users = UserRepository.GetAllUsers();
+            return Ok(users);
+        }
+
+        [HttpGet("roles")]
+        public IActionResult GetUserRoles()
+        {
+            var roles = UserRepository.GetAllRoles();
+            return Ok(roles);
         }
 
         [HttpGet("{id}")]

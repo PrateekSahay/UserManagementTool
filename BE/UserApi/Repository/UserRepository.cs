@@ -5,8 +5,11 @@ using UserApi.Models;
 
 namespace UserApi.Repository
 {
+    // TODO: Create abstraction using interface and implement it
+    // TODO: Use dependecy injection
+    // TODO: Write stored procedures for sql operations
     public class UserRepository
-    {
+    {        
         private static string _connectionString = @"Data Source=.;Initial Catalog=UserDetails;Integrated Security=True;";        
         public static int GetNumberOfUsers()
         {            
@@ -24,11 +27,10 @@ namespace UserApi.Repository
 
             if (userCount < 1)
             {
-                string sql = "Insert into UserInfo values(@UserId, @UserName, @Password, @Email, @FirstName, @LastName, @IsTrialUser)";
+                string sql = "Insert into UserInfo values(@UserName, @Password, @Email, @FirstName, @LastName, @IsTrialUser)";
                 con.Query(sql,
                     new
-                    {
-                        UserId = user.UserId,
+                    {                        
                         UserName = user.UserName,
                         Password = user.Password,
                         Email = user.Email,
@@ -135,6 +137,15 @@ namespace UserApi.Repository
                 result.Add(user);
             }
             return result;
+        }
+
+        public static IEnumerable<UserRoles> GetAllRoles()
+        {
+            var result = new List<User>();
+            string sql = "Select * from Roles";
+            var con = new SqlConnection(_connectionString);
+            var userRoles = con.Query<UserRoles>(sql);            
+            return userRoles;
         }
     }
 }
