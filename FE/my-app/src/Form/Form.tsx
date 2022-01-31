@@ -177,7 +177,7 @@ const Form = (props: FormProps) => {
                     //value={isTrialUser}
                     disabled={props.viewOnly}
                     checked={isTrialUser}                       
-                 onChange={() => setIsTrialUser(!isTrialUser)} />} label="Label" />  
+                 onChange={() => setIsTrialUser(!isTrialUser)} />} label="Trial User" />  
             </div>
             <div>
               <div className='textField'>                
