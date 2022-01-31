@@ -7,12 +7,15 @@ import ModalForm from '../Modal/Modal';
 
 export interface ITableForm {
   users: User[] | undefined;
+  getAllUsers: () => void;
 }
 
 const TableForm = (props: ITableForm) => {
 
     const [isOpen, setIsOpen] = useState(false);        
-    const [data, setData] = useState<any>({});    
+    const [data, setData] = useState<any>({}); 
+    
+    const closePopup = () => setIsOpen(false);
 
     const updateModalState = (value: boolean) => {setIsOpen(value)};
         const onViewOrEditClick = (user: User, val: string):FormProps => {            
@@ -20,7 +23,9 @@ const TableForm = (props: ITableForm) => {
                 const formData: FormProps = {
                   viewOnly: true,
                   roles: undefined,
-                  user: user
+                  user: user,
+                  getAllUsers: props.getAllUsers,
+                  closePopup: closePopup
                 };
                 setData(formData);
                 setIsOpen(true)
@@ -31,7 +36,9 @@ const TableForm = (props: ITableForm) => {
                     viewOnly: false,
                     roles: undefined,
                     user: user,
-                    isPut: true
+                    isPut: true,
+                    getAllUsers: props.getAllUsers,
+                    closePopup: closePopup
                   };
                   setData(formData);
                   setIsOpen(true)
@@ -48,18 +55,20 @@ const TableForm = (props: ITableForm) => {
             },
             //body: JSON.stringify(req)
         })
-        .then(resp => resp.json())
-        .then(data => {
-          console.log("data", data); 
-          window.location.reload();
-          //props.isAuthenticated(data);
-        });
+        .then(() => {
+            props.getAllUsers();
+          });
+        // .then(data => {
+        //   console.log("data", data); 
+        //   window.location.reload();
+        //   //props.isAuthenticated(data);
+        // });
     }
 
 
         return (                
             <> 
-                {isOpen && <ModalForm formProps={data} isOpen={isOpen} handleClose={updateModalState} />}               
+                {isOpen && <ModalForm formProps={data} isOpen={isOpen} handleClose={updateModalState} getAllUsers={props.getAllUsers} />}               
                 <TableContainer component={Paper} className="tableContainer">
                     <Table className = "table" aria-label="simple table">
                         <TableHead>

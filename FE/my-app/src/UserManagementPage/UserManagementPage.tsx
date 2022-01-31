@@ -6,26 +6,30 @@ import TableForm from '../Table/Table';
 import ModalForm from '../Modal/Modal';
 
 export interface IUserManagementPage {
-    formProps: FormProps;
+    //formProps: FormProps;
     userList: User[] | undefined;
+    getAllUsers: () => void;
 }
 
 const UserManagementPage = (props: IUserManagementPage) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const updateModalState = (value: boolean) => setIsOpen(value);
+  const closeModal = () => setIsOpen(false);  
   const getFormProp = ():FormProps => {
     const formData: FormProps = {
       viewOnly: false,
-      roles: props.formProps.roles,
-      user: undefined
+      roles: undefined,
+      user: undefined,
+      getAllUsers: props.getAllUsers,
+      closePopup: closeModal
     }
     return formData;
   }
 
   return (
   <div className='userManagementPageCont'>
-    {isOpen && <ModalForm isOpen={isOpen} handleClose={updateModalState}
+    {isOpen && <ModalForm isOpen={isOpen} handleClose={updateModalState} getAllUsers={props.getAllUsers}
       formProps={getFormProp()}
      />}
       <h1>User Management</h1>
@@ -36,7 +40,7 @@ const UserManagementPage = (props: IUserManagementPage) => {
            Add New User +
       </Button>
       <div className='tableCont'>
-          <TableForm users={props.userList} />            
+          <TableForm users={props.userList} getAllUsers={props.getAllUsers} />            
       </div>      
   </div>
   );

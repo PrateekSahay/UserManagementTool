@@ -14,6 +14,8 @@ export interface FormProps {
     roles: UserRoles[] | undefined;
     viewOnly: boolean;    
     isPut?: boolean;
+    getAllUsers: () => void;
+    closePopup: () => void;
 }
 
 const Form = (props: FormProps) => {
@@ -93,10 +95,13 @@ const Form = (props: FormProps) => {
               },
               body: JSON.stringify(postReq)
           })
-          .then(resp => resp.json())
-          .then(data => {
-            console.log("data", data);          
+          .then(() => {
+            props.getAllUsers();
+            props.closePopup();
           });
+          // .then(data => {
+          //   console.log("data", data);          
+          // });
         }
         else {
           const postReq: User = {
@@ -118,10 +123,13 @@ const Form = (props: FormProps) => {
               },
               body: JSON.stringify(postReq)
           })
-          .then(resp => resp.json())
-          .then(data => {
-            console.log("data", data);          
+          .then(() => {
+            props.getAllUsers();
+            props.closePopup();
           });
+          // .then(data => {
+          //   console.log("data", data);          
+          // });
         }        
 
       }

@@ -7,6 +7,7 @@ export interface IModalProps {
   formProps: FormProps;
   isOpen: boolean;
   handleClose: (value: boolean) => void;
+  getAllUsers: () => void;
 }
 
 const useStyles = makeStyles({

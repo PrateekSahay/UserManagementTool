@@ -28,13 +28,7 @@ const UserManagementTool = () => {
             }
         );
 
-        fetch('https://localhost:44365/api/User/all')
-            .then(resp => resp.json())
-            .then(data => {            
-                console.log(data);     
-                setUserList(data);           
-            }
-        );
+        getAllUsers();
 
         fetch('https://localhost:44365/api/User/roles')
             .then(resp => resp.json())
@@ -44,6 +38,16 @@ const UserManagementTool = () => {
             }
         );
     }, []);
+
+    const getAllUsers = () => {
+        fetch('https://localhost:44365/api/User/all')
+                .then(resp => resp.json())
+                .then(data => {            
+                    console.log(data);     
+                    setUserList(data);           
+                }
+            );
+    }
 
     // const FormComponentProps: FormComponentProps = {
     //     user: {
@@ -60,11 +64,12 @@ const UserManagementTool = () => {
     //     roles: rolesList        
     // };
 
-    const formProps: FormProps = {
-        user: userList && userList[0], 
-        viewOnly: false,
-        roles: rolesList,        
-    };
+    // const formProps: FormProps = {
+    //     user: userList && userList[0], 
+    //     viewOnly: false,
+    //     roles: rolesList,     
+    //     getAllUsers: () => {}   
+    // };
     const classes = useStyles();
 
     return(        
@@ -76,7 +81,9 @@ const UserManagementTool = () => {
                         {/* <Route exact path ='/card' render={props => <SimpleCard {...props} numberOfUsers = {numberOfUsers}/>} /> */}
                         {/* <Route exact path ='/userForm/:formState/:id' render={props => <Form {...props} {...formProps}/>} /> */}
                         <Route exact path ='/' render={props => <Dashboard {...props} numberOfUsers = {numberOfUsers}/>} />
-                        <Route exact path ='/user' render={props => <UserManagementPage {...props} formProps={formProps} userList={userList}/>} />                        
+                        <Route exact path ='/user' render={props => <UserManagementPage {...props}
+                         //formProps={formProps}
+                          userList={userList} getAllUsers={getAllUsers}/>} />                        
                     </Switch>            
                 </BrowserRouter>                  
         </div>
